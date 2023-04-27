@@ -27,7 +27,7 @@ const Keyboard = {
 
     this.elements.textarea = document.createElement('textarea');
     this.elements.about = document.createElement('div');
-    this.elements.sound = document.createElement('button');
+    this.elements.sound = document.createElement('div');
 
     // Setup main elements
     this.elements.main.classList.add('keyboard', 'keyboard--hidden');
@@ -142,6 +142,11 @@ const Keyboard = {
       const keyElement = document.createElement('button');
 
       const insertLineBreak = ['Backspace', 'DEL', 'ENTER'].indexOf(key) !== -1 || i === 55;
+
+      const virtualKeyHandler = () => {
+        this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
+        this._triggerEvent('oninput');
+      };
 
       // Add attributes/classes
       keyElement.setAttribute('type', 'button');
@@ -323,14 +328,16 @@ const Keyboard = {
         default:
           keyElement.textContent = key.toLowerCase();
 
-          keyElement.addEventListener('click', () => {
-            this.properties.value += this.properties.capsLock
-              ? key.toUpperCase()
-              : key.toLowerCase();
-            this._triggerEvent('oninput');
+          // const fisicalKeyHandler = (evt) => {
+          //   console.log(keyElement.innerText);
 
-            // audio.play();
-          });
+          //   keyElement.classList.add('active');
+          //   if (evt.code === `Key${keyElement.innerText}`) {
+          //     keyElement.classList.add('active');
+          //   }
+          // };
+
+          keyElement.addEventListener('click', virtualKeyHandler);
 
           break;
       }
