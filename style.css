@@ -76,7 +76,8 @@
 }
 
 .active {
-  background: rgba(81, 81, 81, 0.657);
+  /* background: rgba(81, 81, 81, 0.657); */
+    background: rgba(13, 91, 144, 0.657);
 }
 
 .keyboard__key--wide {
