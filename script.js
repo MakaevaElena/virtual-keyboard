@@ -143,14 +143,15 @@ const Keyboard = {
 
       const insertLineBreak = ['Backspace', 'DEL', 'ENTER'].indexOf(key) !== -1 || i === 55;
 
-      const virtualKeyHandler = () => {
-        this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
-        this._triggerEvent('oninput');
-      };
+      // const virtualKeyHandler = () => {
+      //   this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
+      //   this._triggerEvent('oninput');
+      // };
 
       // Add attributes/classes
       keyElement.setAttribute('type', 'button');
       keyElement.classList.add('keyboard__key');
+      keyElement.dataset.key = key;
 
       switch (key) {
         case 'Backspace':
@@ -328,16 +329,12 @@ const Keyboard = {
         default:
           keyElement.textContent = key.toLowerCase();
 
-          // const fisicalKeyHandler = (evt) => {
-          //   console.log(keyElement.innerText);
-
-          //   keyElement.classList.add('active');
-          //   if (evt.code === `Key${keyElement.innerText}`) {
-          //     keyElement.classList.add('active');
-          //   }
-          // };
-
-          keyElement.addEventListener('click', virtualKeyHandler);
+          keyElement.addEventListener('click', () => {
+            this.properties.value += this.properties.capsLock
+              ? key.toUpperCase()
+              : key.toLowerCase();
+            this._triggerEvent('oninput');
+          });
 
           break;
       }
@@ -347,6 +344,22 @@ const Keyboard = {
       if (insertLineBreak) {
         fragment.appendChild(document.createElement('br'));
       }
+
+      //! keydown
+      document.addEventListener('keydown', (evt) => {
+        // console.log(evt.code);
+        const sameKey = keyLayout.filter((el) => evt.code === `Key${el.toUpperCase()}`);
+        const sameKeyElement = document.querySelector(`.keyboard__key[data-key=${sameKey}]`);
+        sameKeyElement.classList.add('active');
+        // console.log(sameKeyElement);
+      });
+
+      document.addEventListener('keyup', (evt) => {
+        // console.log(evt.code);
+        const sameKey = keyLayout.filter((el) => evt.code === `Key${el.toUpperCase()}`);
+        const sameKeyElement = document.querySelector(`.keyboard__key[data-key=${sameKey}]`);
+        sameKeyElement.classList.remove('active');
+      });
     });
 
     return fragment;
