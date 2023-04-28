@@ -95,7 +95,7 @@ export const keys = [
   { en: '[', ru: 'х', key: 'BracketLeft' },
   { en: ']', ru: 'ъ', key: 'BracketRight' },
   { en: '\\', ru: '/', key: 'Backslash' },
-  { en: 'DEL', ru: 'DEL', key: 'DEL' },
+  { en: 'DEL', ru: 'DEL', key: 'Delete' },
   { en: 'Caps Lock', ru: 'Caps Lock', key: 'CapsLock' },
   { en: 'a', ru: 'ф', key: 'KeyA' },
   { en: 's', ru: 'ы', key: 'KeyS' },

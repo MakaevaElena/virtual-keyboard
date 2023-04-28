@@ -1,5 +1,20 @@
 // const audio = new Audio('/audio/tink.wav');
+
 import { keys } from './data.js';
+
+function soundClick() {
+  var audio = new Audio();
+  audio.src = './assets/keysound.mp3';
+  audio.autoplay = true;
+  audio.volume = 0.6;
+}
+
+function soundClickMinVolume() {
+  var audio = new Audio();
+  audio.src = './assets/keysound.mp3';
+  audio.autoplay = true;
+  audio.volume = 0.1;
+}
 
 const Keyboard = {
   elements: {
@@ -92,6 +107,7 @@ const Keyboard = {
           keyElement.textContent = key.en;
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.properties.value = this.properties.value.substring(
               0,
               this.properties.value.length - 1,
@@ -107,6 +123,7 @@ const Keyboard = {
           keyElement.textContent = key.en;
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.properties.value = this.properties.value.substring(
               0,
               this.properties.value.length - 1,
@@ -126,6 +143,7 @@ const Keyboard = {
           keyElement.textContent = key.en;
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this._toggleCapsLock();
             keyElement.classList.toggle('keyboard__key--active', this.properties.capsLock);
           });
@@ -138,6 +156,7 @@ const Keyboard = {
           keyElement.textContent = key.en;
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.properties.value += '\n';
             this._triggerEvent('oninput');
           });
@@ -150,6 +169,7 @@ const Keyboard = {
           keyElement.textContent = key.en;
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.properties.value += ' ';
             this._triggerEvent('oninput');
           });
@@ -165,6 +185,7 @@ const Keyboard = {
           keyElement.textContent = key.en;
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.close();
             this._triggerEvent('onclose');
           });
@@ -176,6 +197,7 @@ const Keyboard = {
           keyElement.innerHTML = createIconHTML('arrow_drop_up');
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.close();
             this._triggerEvent('onclose');
           });
@@ -187,6 +209,7 @@ const Keyboard = {
           keyElement.innerHTML = createIconHTML('arrow_drop_down');
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.close();
             this._triggerEvent('onclose');
           });
@@ -198,6 +221,7 @@ const Keyboard = {
           keyElement.innerHTML = createIconHTML('arrow_left');
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.close();
             this._triggerEvent('onclose');
           });
@@ -209,6 +233,7 @@ const Keyboard = {
           keyElement.innerHTML = createIconHTML('arrow_right');
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.close();
             this._triggerEvent('onclose');
           });
@@ -220,6 +245,7 @@ const Keyboard = {
           keyElement.textContent = key.en;
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.close();
             this._triggerEvent('onclose');
           });
@@ -231,6 +257,7 @@ const Keyboard = {
           keyElement.textContent = key.en;
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.close();
             this._triggerEvent('onclose');
           });
@@ -242,6 +269,7 @@ const Keyboard = {
           keyElement.textContent = key.en;
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.close();
             this._triggerEvent('onclose');
           });
@@ -253,6 +281,7 @@ const Keyboard = {
           keyElement.textContent = key.en;
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.close();
             this._triggerEvent('onclose');
           });
@@ -263,6 +292,7 @@ const Keyboard = {
           keyElement.textContent = key.en.toLowerCase();
 
           keyElement.addEventListener('click', () => {
+            soundClick();
             this.properties.value += this.properties.capsLock
               ? key.en.toUpperCase()
               : key.en.toLowerCase();
@@ -280,9 +310,11 @@ const Keyboard = {
 
       //! keydown
       document.addEventListener('keydown', (evt) => {
+        soundClickMinVolume();
         const sameKeyElement = document.querySelector(`.keyboard__key[data-key=${evt.code}]`);
         sameKeyElement.classList.add('active');
-        // console.log(sameKeyElement);
+
+        // console.log(evt.code);
       });
 
       document.addEventListener('keyup', (evt) => {
