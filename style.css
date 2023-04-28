@@ -71,13 +71,19 @@
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.4);
 }
 
-.keyboard__key:active {
+.keyboard__key:hover {
   background: rgba(81, 81, 81, 0.657);
 }
 
+.keyboard__key:active {
+  background: rgba(81, 81, 81, 0.657);
+  border-radius: 40%;
+}
+
 .active {
-  /* background: rgba(81, 81, 81, 0.657); */
-    background: rgba(13, 91, 144, 0.657);
+  background: rgba(81, 81, 81, 0.657) !important;
+  color: white !important;
+  border-radius: 40%;
 }
 
 .keyboard__key--wide {
