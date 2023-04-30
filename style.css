@@ -5,9 +5,24 @@
   font-size: 24px;
 }
 
-/* .sound {
+.sound,
+.close {
   margin: 0 auto;
-} */
+  text-align: center;
+  width: fit-content;
+  border: 1px solid grey;
+  border-radius: 5%;
+  background-color: rgb(154, 147, 147);
+  color: white;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.sound:hover,
+.close:hover {
+  background-color: rgb(100, 98, 98);
+}
 
 .use-keyboard-input {
   display: block;
@@ -20,9 +35,9 @@
 }
 
 .keyboard {
-  /* position: fixed;
-  left: 0;
-  bottom: 0; */
+  /* position: fixed; */
+  /* left: 0; */
+  /* bottom: 0; */
   margin: 0 auto;
   width: 70%;
   padding: 5px 10px;
@@ -33,7 +48,8 @@
 }
 
 .keyboard--hidden {
-  bottom: -100%;
+  /* bottom: -100%; */
+  display: none;
 }
 
 .keyboard__keys {
@@ -64,8 +80,19 @@
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.4);
 }
 
+.keyboard__key:hover {
+  background: rgba(81, 81, 81, 0.657);
+}
+
 .keyboard__key:active {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(81, 81, 81, 0.657);
+  border-radius: 40%;
+}
+
+.active {
+  background: rgba(81, 81, 81, 0.657) !important;
+  color: white !important;
+  border-radius: 40%;
 }
 
 .keyboard__key--wide {
@@ -93,7 +120,7 @@
 }
 
 .keyboard__key--dark {
-  color: rgb(139, 139, 139);
+  color: rgb(181, 178, 178);
   background: rgb(92, 83, 83);
 }
 
