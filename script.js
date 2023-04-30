@@ -1,6 +1,6 @@
 // const audio = new Audio('/audio/tink.wav');
 
-import { keys } from './data.js';
+import { data } from './data.js';
 
 function soundClick() {
   var audio = new Audio();
@@ -95,37 +95,42 @@ const Keyboard = {
       sameKeyElement.classList.remove('active');
     });
 
-    console.log(this.elements.close);
     this.elements.close.addEventListener('click', () => {
       this.elements.main.classList.add('keyboard--hidden');
       this.elements.close.classList.add('keyboard--hidden');
       this.elements.sound.classList.add('keyboard--hidden');
     });
+
+    //! lang
+    // const langBtn = document.querySelector('#55');
+    // console.log(langBtn);
   },
 
   _createKeys() {
     const fragment = document.createDocumentFragment();
     let lang = '';
+
     // Creates HTML for an icon
     const createIconHTML = (icon_name) => {
       return `<i class="material-icons">${icon_name}</i>`;
     };
 
-    keys.forEach((key, i) => {
+    data.forEach((dataKey, i) => {
+      // this.properties.langEn ? (lang = key.en) : (lang = key.ru);
       const keyElement = document.createElement('button');
-      const insertLineBreak = ['Backspace', 'DEL', 'ENTER'].indexOf(key.en) !== -1 || i === 55;
+      const insertLineBreak = ['Backspace', 'DEL', 'ENTER'].indexOf(dataKey.en) !== -1 || i === 55;
 
       // Add attributes/classes
       keyElement.setAttribute('type', 'button');
       keyElement.classList.add('keyboard__key');
-      keyElement.dataset.key = key.key;
+      keyElement.dataset.key = dataKey.key;
       keyElement.id = i;
 
-      switch (key.en) {
+      switch (dataKey.en) {
         case 'Backspace':
           keyElement.classList.add('keyboard__key--wide', 'keyboard__key--dark');
           // keyElement.innerHTML = createIconHTML('Backspace');
-          keyElement.textContent = key.en;
+          keyElement.textContent = dataKey.en;
 
           keyElement.addEventListener('click', () => {
             soundClick();
@@ -141,7 +146,7 @@ const Keyboard = {
         case 'DEL':
           keyElement.classList.add('keyboard__key--dark');
           // keyElement.innerHTML = createIconHTML('DEL');
-          keyElement.textContent = key.en;
+          keyElement.textContent = dataKey.en;
 
           keyElement.addEventListener('click', () => {
             soundClick();
@@ -161,7 +166,7 @@ const Keyboard = {
             'keyboard__key--activatable',
           );
           // keyElement.innerHTML = createIconHTML('Caps Lock');
-          keyElement.textContent = key.en;
+          keyElement.textContent = dataKey.en;
 
           keyElement.addEventListener('click', () => {
             soundClick();
@@ -174,7 +179,7 @@ const Keyboard = {
         case 'ENTER':
           keyElement.classList.add('keyboard__key--wide', 'keyboard__key--dark');
           // keyElement.innerHTML = createIconHTML('ENTER');
-          keyElement.textContent = key.en;
+          keyElement.textContent = dataKey.en;
 
           keyElement.addEventListener('click', () => {
             soundClick();
@@ -187,7 +192,7 @@ const Keyboard = {
         case 'space':
           keyElement.classList.add('keyboard__key--extra-wide');
           // keyElement.innerHTML = createIconHTML('space_bar');
-          keyElement.textContent = key.en;
+          keyElement.textContent = dataKey.en;
 
           keyElement.addEventListener('click', () => {
             soundClick();
@@ -203,12 +208,12 @@ const Keyboard = {
           if (i === 42) keyElement.dataset.key = 'ShiftLeft';
           if (i === 55) keyElement.dataset.key = 'ShiftRight';
           // keyElement.innerHTML = createIconHTML('Shift');
-          keyElement.textContent = key.en;
+          keyElement.textContent = dataKey.en;
 
           keyElement.addEventListener('click', () => {
             soundClick();
-            this.close();
-            this._triggerEvent('onclose');
+            // this.close();
+            // this._triggerEvent('onclose');
           });
 
           break;
@@ -219,8 +224,8 @@ const Keyboard = {
 
           keyElement.addEventListener('click', () => {
             soundClick();
-            this.close();
-            this._triggerEvent('onclose');
+            // this.close();
+            // this._triggerEvent('onclose');
           });
 
           break;
@@ -231,8 +236,8 @@ const Keyboard = {
 
           keyElement.addEventListener('click', () => {
             soundClick();
-            this.close();
-            this._triggerEvent('onclose');
+            // this.close();
+            // this._triggerEvent('onclose');
           });
 
           break;
@@ -243,8 +248,8 @@ const Keyboard = {
 
           keyElement.addEventListener('click', () => {
             soundClick();
-            this.close();
-            this._triggerEvent('onclose');
+            // this.close();
+            // this._triggerEvent('onclose');
           });
 
           break;
@@ -255,76 +260,79 @@ const Keyboard = {
 
           keyElement.addEventListener('click', () => {
             soundClick();
-            this.close();
-            this._triggerEvent('onclose');
+            // this.close();
+            // this._triggerEvent('onclose');
           });
 
           break;
 
         case 'Ctrl':
           keyElement.classList.add('keyboard__key--dark');
-          keyElement.textContent = key.en;
+          keyElement.textContent = dataKey.en;
 
           keyElement.addEventListener('click', () => {
             soundClick();
-            this.close();
-            this._triggerEvent('onclose');
+            // this.close();
+            // this._triggerEvent('onclose');
           });
 
           break;
 
         case 'Win':
           keyElement.classList.add('keyboard__key--dark');
-          keyElement.textContent = key.en;
+          keyElement.textContent = dataKey.en;
 
           keyElement.addEventListener('click', () => {
             soundClick();
-            this.close();
-            this._triggerEvent('onclose');
+            // this.close();
+            // this._triggerEvent('onclose');
           });
 
           break;
 
         case 'Alt':
           keyElement.classList.add('keyboard__key--dark');
-          keyElement.textContent = key.en;
+          keyElement.textContent = dataKey.en;
 
           keyElement.addEventListener('click', () => {
             soundClick();
-            this.close();
-            this._triggerEvent('onclose');
+            // this.close();
+            // this._triggerEvent('onclose');
           });
 
           break;
 
         case 'Tab':
           keyElement.classList.add('keyboard__key--dark');
-          keyElement.textContent = key.en;
+          keyElement.textContent = dataKey.en;
 
           keyElement.addEventListener('click', () => {
             soundClick();
-            this.close();
-            this._triggerEvent('onclose');
+            // this.close();
+            // this._triggerEvent('onclose');
           });
 
           break;
 
         case 'Lang':
           keyElement.classList.add('keyboard__key--dark');
-          keyElement.textContent = key.en;
+          keyElement.textContent = dataKey.en;
 
           keyElement.addEventListener('click', () => {
             soundClick();
             this._toggleLang();
             console.log(this.properties.langEn);
-            this.close();
-            this._triggerEvent('onclose');
+            // this.close();
+            // this._triggerEvent('onclose');
           });
 
           break;
 
+        //!
         default:
-          this.properties.langEn ? (lang = key.en) : (lang = key.ru);
+          this.properties.langEn ? (lang = dataKey.en) : (lang = dataKey.ru);
+          // console.log(this.properties.langEn);
+          // console.log(lang);
           keyElement.textContent = lang.toLowerCase();
 
           // this.properties.langEn
@@ -333,9 +341,17 @@ const Keyboard = {
 
           keyElement.addEventListener('click', () => {
             soundClick();
-            this.properties.value += this.properties.capsLock
-              ? key.en.toUpperCase()
-              : key.en.toLowerCase();
+
+            if (this.properties.langEn) {
+              this.properties.value += this.properties.capsLock
+                ? dataKey.en.toUpperCase()
+                : dataKey.en.toLowerCase();
+            } else {
+              this.properties.value += this.properties.capsLock
+                ? dataKey.ru.toUpperCase()
+                : dataKey.ru.toLowerCase();
+            }
+
             this._triggerEvent('oninput');
           });
 
@@ -372,8 +388,14 @@ const Keyboard = {
     }
   },
 
+  //!
   _toggleLang() {
     this.properties.langEn = !this.properties.langEn;
+    for (const key of this.elements.keys) {
+      const elem = data.filter((obj) => obj.key === key.dataset.key)[0];
+      // console.log(a);
+      key.textContent = this.properties.langEn ? elem.en : elem.ru;
+    }
   },
 
   open(initialValue, oninput, onclose) {

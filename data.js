@@ -66,7 +66,7 @@ export const keyLayout = [
   'Right',
 ];
 
-export const keys = [
+export const data = [
   { en: '`', ru: 'ё', key: '`' },
   { en: '1', ru: '1', key: 'Digit1' },
   { en: '2', ru: '2', key: 'Digit2' },
