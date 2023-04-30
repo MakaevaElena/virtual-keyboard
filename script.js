@@ -9,13 +9,6 @@ function soundClick() {
   audio.volume = 0.6;
 }
 
-function soundClickMinVolume() {
-  var audio = new Audio();
-  audio.src = './assets/keysound.mp3';
-  audio.autoplay = true;
-  audio.volume = 0.1;
-}
-
 const Keyboard = {
   elements: {
     main: null,
@@ -24,6 +17,7 @@ const Keyboard = {
     textarea: null,
     about: null,
     sound: null,
+    close: null,
   },
 
   eventHandlers: {
@@ -34,6 +28,7 @@ const Keyboard = {
   properties: {
     value: '',
     capsLock: false,
+    langEn: true,
   },
 
   init() {
@@ -44,15 +39,19 @@ const Keyboard = {
     this.elements.textarea = document.createElement('textarea');
     this.elements.about = document.createElement('div');
     this.elements.sound = document.createElement('div');
+    this.elements.close = document.createElement('div');
 
     // Setup main elements
     this.elements.main.classList.add('keyboard', 'keyboard--hidden');
     this.elements.keysContainer.classList.add('keyboard__keys');
     this.elements.textarea.classList.add('use-keyboard-input');
-    this.elements.about.classList.add('about');
-    this.elements.sound.classList.add('sound');
+    this.elements.about.classList.add('about', 'keyboard--hidden');
+    this.elements.sound.classList.add('sound', 'keyboard--hidden');
+    this.elements.close.classList.add('close', 'keyboard--hidden');
+
     this.elements.about.innerHTML += '<p>Change lang: Shift + Alt</p>';
     this.elements.sound.innerText = 'Sound';
+    this.elements.close.innerText = 'CLOSE V-keyboard';
 
     this.elements.textarea.placeholder = 'Click here';
     this.elements.keysContainer.appendChild(this._createKeys());
@@ -65,6 +64,7 @@ const Keyboard = {
     document.body.appendChild(this.elements.main);
     document.body.appendChild(this.elements.about);
     document.body.appendChild(this.elements.sound);
+    document.body.appendChild(this.elements.close);
 
     // Automatically use keyboard for elements with .use-keyboard-input
 
@@ -75,23 +75,44 @@ const Keyboard = {
         });
       });
     });
+
+    //! keydown
+    document.addEventListener('keydown', (evt) => {
+      if (evt.repeat) return;
+      // soundClick();
+      const sameKeyElement = document.querySelector(`.keyboard__key[data-key=${evt.code}]`);
+      sameKeyElement.classList.add('active');
+      console.log(evt.code);
+
+      if (evt.code === 'ShiftLeft') {
+        this._toggleLang();
+        console.log(this.properties.langEn);
+      }
+    });
+
+    document.addEventListener('keyup', (evt) => {
+      const sameKeyElement = document.querySelector(`.keyboard__key[data-key=${evt.code}]`);
+      sameKeyElement.classList.remove('active');
+    });
+
+    console.log(this.elements.close);
+    this.elements.close.addEventListener('click', () => {
+      this.elements.main.classList.add('keyboard--hidden');
+      this.elements.close.classList.add('keyboard--hidden');
+      this.elements.sound.classList.add('keyboard--hidden');
+    });
   },
 
   _createKeys() {
     const fragment = document.createDocumentFragment();
-
-    // console.log(keys);
-
+    let lang = '';
     // Creates HTML for an icon
     const createIconHTML = (icon_name) => {
       return `<i class="material-icons">${icon_name}</i>`;
     };
 
-    // console.log('shift', keyLayout.indexOf('Shift'));
-
     keys.forEach((key, i) => {
       const keyElement = document.createElement('button');
-
       const insertLineBreak = ['Backspace', 'DEL', 'ENTER'].indexOf(key.en) !== -1 || i === 55;
 
       // Add attributes/classes
@@ -288,8 +309,27 @@ const Keyboard = {
 
           break;
 
+        case 'Lang':
+          keyElement.classList.add('keyboard__key--dark');
+          keyElement.textContent = key.en;
+
+          keyElement.addEventListener('click', () => {
+            soundClick();
+            this._toggleLang();
+            console.log(this.properties.langEn);
+            this.close();
+            this._triggerEvent('onclose');
+          });
+
+          break;
+
         default:
-          keyElement.textContent = key.en.toLowerCase();
+          this.properties.langEn ? (lang = key.en) : (lang = key.ru);
+          keyElement.textContent = lang.toLowerCase();
+
+          // this.properties.langEn
+          //   ? (keyElement.textContent = key.en.toLowerCase())
+          //   : (keyElement.textContent = key.ru.toLowerCase());
 
           keyElement.addEventListener('click', () => {
             soundClick();
@@ -307,20 +347,6 @@ const Keyboard = {
       if (insertLineBreak) {
         fragment.appendChild(document.createElement('br'));
       }
-
-      //! keydown
-      document.addEventListener('keydown', (evt) => {
-        soundClickMinVolume();
-        const sameKeyElement = document.querySelector(`.keyboard__key[data-key=${evt.code}]`);
-        sameKeyElement.classList.add('active');
-
-        // console.log(evt.code);
-      });
-
-      document.addEventListener('keyup', (evt) => {
-        const sameKeyElement = document.querySelector(`.keyboard__key[data-key=${evt.code}]`);
-        sameKeyElement.classList.remove('active');
-      });
     });
 
     return fragment;
@@ -346,18 +372,26 @@ const Keyboard = {
     }
   },
 
+  _toggleLang() {
+    this.properties.langEn = !this.properties.langEn;
+  },
+
   open(initialValue, oninput, onclose) {
     this.properties.value = initialValue || '';
     this.eventHandlers.oninput = oninput;
     this.eventHandlers.onclose = onclose;
-    // this.elements.main.classList.remove('keyboard--hidden');
+    this.elements.main.classList.remove('keyboard--hidden');
+
+    this.elements.about.classList.remove('keyboard--hidden');
+    this.elements.sound.classList.remove('keyboard--hidden');
+    this.elements.close.classList.remove('keyboard--hidden');
   },
 
   close() {
     this.properties.value = '';
     this.eventHandlers.oninput = oninput;
     this.eventHandlers.onclose = onclose;
-    // this.elements.main.classList.add('keyboard--hidden');
+    this.elements.main.classList.add('keyboard--hidden');
   },
 };
 

@@ -122,7 +122,7 @@ export const keys = [
   { en: ',', ru: 'ю', key: 'KeyN' },
   { en: '/', ru: '?', key: 'KeyN' },
   { en: 'Up', ru: 'Up', key: 'ArrowUp' },
-  { en: 'Shift', ru: 'Shift', key: 'ShiftRight' },
+  { en: 'Lang', ru: 'Lang', key: 'Lang' },
   { en: 'Ctrl', ru: 'Ctrl', key: 'ControlLeft' },
   { en: 'Win', ru: 'Win', key: 'MetaLeft' },
   { en: 'Alt', ru: 'Alt', key: 'AltLeft' },

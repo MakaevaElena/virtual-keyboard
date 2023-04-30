@@ -5,15 +5,23 @@
   font-size: 24px;
 }
 
-.sound {
+.sound,
+.close {
   margin: 0 auto;
   text-align: center;
-  width: 5%;
+  width: fit-content;
   border: 1px solid grey;
   border-radius: 5%;
   background-color: rgb(154, 147, 147);
   color: white;
-  padding: 2px;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.sound:hover,
+.close:hover {
+  background-color: rgb(100, 98, 98);
 }
 
 .use-keyboard-input {
@@ -27,9 +35,9 @@
 }
 
 .keyboard {
-  /* position: fixed;
-  left: 0;
-  bottom: 0; */
+  /* position: fixed; */
+  /* left: 0; */
+  /* bottom: 0; */
   margin: 0 auto;
   width: 70%;
   padding: 5px 10px;
@@ -40,7 +48,8 @@
 }
 
 .keyboard--hidden {
-  bottom: -100%;
+  /* bottom: -100%; */
+  display: none;
 }
 
 .keyboard__keys {
