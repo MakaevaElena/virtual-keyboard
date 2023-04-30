@@ -1,3 +1,5 @@
+import { moveRow } from './utils.js';
+
 export default class Keyboard {
   constructor(data) {
     this.data = data;
@@ -9,7 +11,6 @@ export default class Keyboard {
     keys: [],
     textarea: null,
     about: null,
-    // sound: null,
     close: null,
   };
 
@@ -28,14 +29,12 @@ export default class Keyboard {
   };
 
   init() {
-    // Create main elements
     this.elements.main = document.createElement('div');
     this.elements.keysContainer = document.createElement('div');
     this.elements.textarea = document.createElement('textarea');
     this.elements.about = document.createElement('div');
     this.elements.close = document.createElement('div');
 
-    // Setup main elements
     this.elements.main.classList.add('keyboard', 'keyboard--hidden');
     this.elements.keysContainer.classList.add('keyboard__keys');
     this.elements.textarea.classList.add('use-keyboard-input');
@@ -50,14 +49,12 @@ export default class Keyboard {
     this.elements.keysContainer.appendChild(this._createKeys());
     this.elements.keys = this.elements.keysContainer.querySelectorAll('.keyboard__key');
 
-    // Add to DOM
     this.elements.main.appendChild(this.elements.keysContainer);
     document.body.appendChild(this.elements.textarea);
     document.body.appendChild(this.elements.main);
     document.body.appendChild(this.elements.about);
     document.body.appendChild(this.elements.close);
 
-    // Automatically use keyboard for elements with .use-keyboard-input
     document.querySelectorAll('.use-keyboard-input').forEach((element) => {
       element.addEventListener('blur', () => element.focus());
 
@@ -68,9 +65,9 @@ export default class Keyboard {
       });
     });
 
-    //Keydoun
+    //Keydown
     document.addEventListener('keydown', (evt) => {
-      console.log(evt.code);
+      // console.log(evt.code);
       if (evt.repeat) return;
       const sameKeyElement = document.querySelector(`.keyboard__key[data-key=${evt.code}]`);
       sameKeyElement.classList.add('active');
@@ -84,23 +81,21 @@ export default class Keyboard {
     document.addEventListener('keyup', (evt) => {
       const sameKeyElement = document.querySelector(`.keyboard__key[data-key=${evt.code}]`);
       sameKeyElement.classList.remove('active');
-      console.log(evt.code);
+      // console.log(evt.code);
     });
 
     this.elements.close.addEventListener('click', () => {
       this.elements.main.classList.add('keyboard--hidden');
-      this.elements.close.classList.add('keyboard--hidden');
-      // this.elements.sound.classList.add('keyboard--hidden');
+      // this.elements.close.classList.add('keyboard--hidden');
+      this.elements.close.innerText = 'OPEN keyboard';
       this.elements.about.classList.add('keyboard--hidden');
     });
   }
 
-  // Creates HTML for an icon
   _createIconHTML = (icon_name) => {
     return `<i class="material-icons">${icon_name}</i>`;
   };
 
-  //Sound
   _soundClickEn() {
     const audio = new Audio();
     audio.src = './assets/sound0.mp3';
@@ -121,13 +116,13 @@ export default class Keyboard {
 
   _createKeys() {
     const fragment = document.createDocumentFragment();
+    const language = localStorage.getItem('language');
     let lang = '';
 
     this.data.forEach((dataKey, i) => {
       const keyElement = document.createElement('button');
       const insertLineBreak = ['Backspace', 'DEL', 'ENTER'].indexOf(dataKey.en) !== -1 || i === 55;
 
-      // Add attributes/classes
       keyElement.setAttribute('type', 'button');
       keyElement.classList.add('keyboard__key');
       keyElement.dataset.key = dataKey.key;
@@ -158,6 +153,7 @@ export default class Keyboard {
             this.properties.value = this.properties.value.substring(
               0,
               this.properties.value.length - 1,
+              // this.properties.value.innerText.slice(0, -1),
             );
             this._triggerEvent('oninput');
           });
@@ -216,6 +212,10 @@ export default class Keyboard {
             if (this.properties.sound) this._soundSpecial();
             this._toggleShift();
             keyElement.classList.toggle('keyboard__key--active', this.properties.capsLock);
+
+            // if (typeof +dataKey.en === 'number') {
+            //   this.properties.value += this.properties.shift ? dataKey.simbol : dataKey.en;
+            // }
           });
 
           break;
@@ -225,6 +225,7 @@ export default class Keyboard {
           keyElement.innerHTML = this._createIconHTML('arrow_drop_up');
 
           keyElement.addEventListener('click', () => {
+            moveRow(dataKey.key);
             if (this.properties.sound) this._soundSpecial();
           });
 
@@ -235,6 +236,7 @@ export default class Keyboard {
           keyElement.innerHTML = this._createIconHTML('arrow_drop_down');
 
           keyElement.addEventListener('click', () => {
+            moveRow(dataKey.key);
             if (this.properties.sound) this._soundSpecial();
           });
 
@@ -245,6 +247,7 @@ export default class Keyboard {
           keyElement.innerHTML = this._createIconHTML('arrow_left');
 
           keyElement.addEventListener('click', () => {
+            moveRow(dataKey.key);
             if (this.properties.sound) this._soundSpecial();
           });
 
@@ -255,6 +258,7 @@ export default class Keyboard {
           keyElement.innerHTML = this._createIconHTML('arrow_right');
 
           keyElement.addEventListener('click', () => {
+            moveRow(dataKey.key);
             if (this.properties.sound) this._soundSpecial();
           });
 
@@ -322,6 +326,8 @@ export default class Keyboard {
 
           keyElement.addEventListener('click', () => {
             if (this.properties.sound) this._soundSpecial();
+            this.properties.value += '    ';
+            this._triggerEvent('oninput');
           });
 
           break;
@@ -337,13 +343,17 @@ export default class Keyboard {
 
           break;
 
-        //!
         default:
+          console.log('localStorage', language);
+
           this.properties.langEn ? (lang = dataKey.en) : (lang = dataKey.ru);
+          if (this.properties.shift) keyElement.textContent = dataKey.simbol;
           keyElement.textContent = lang.toLowerCase();
 
           keyElement.addEventListener('click', () => {
-            if (this.properties.langEn) {
+            if (this.properties.shift && dataKey.simbol) {
+              this.properties.value += dataKey.simbol ? dataKey.simbol : dataKey.en;
+            } else if (this.properties.langEn) {
               if (this.properties.sound) this._soundClickEn();
               this.properties.value += this.properties.capsLock
                 ? dataKey.en.toUpperCase()
@@ -354,10 +364,6 @@ export default class Keyboard {
                 ? dataKey.ru.toUpperCase()
                 : dataKey.ru.toLowerCase();
             }
-
-            // if (this.properties.shift) {
-            //   this.properties.value += dataKey.simbol ? dataKey.simbol : dataKey.en;
-            // }
 
             this._triggerEvent('oninput');
           });
@@ -408,21 +414,24 @@ export default class Keyboard {
       const isDark = key.classList.contains('keyboard__key--dark');
 
       if (key.childElementCount === 0 && !isDark) {
-        key.textContent = this.properties.capsLock
-          ? key.textContent.toUpperCase()
-          : key.textContent.toLowerCase();
+        const elem = this.data.filter((obj) => obj.key === key.dataset.key)[0];
+        key.textContent = this.properties.shift ? (elem.simbol ? elem.simbol : elem.en) : elem.en;
+
+        if (this.properties.capsLock) key.textContent = key.textContent.toUpperCase();
       }
     }
   }
 
   _toggleLang() {
     this.properties.langEn = !this.properties.langEn;
+    localStorage.setItem('language', this.properties.langEn);
+    console.log(localStorage.getItem('language'));
     for (const key of this.elements.keys) {
       const isDark = key.classList.contains('keyboard__key--dark');
 
       if ((key.childElementCount === 0 && !isDark) || key.dataset.key === 'ShiftRight') {
         const elem = this.data.filter((obj) => obj.key === key.dataset.key)[0];
-        // console.log(a);
+
         key.textContent = this.properties.langEn ? elem.en : elem.ru;
         if (this.properties.capsLock) key.textContent = key.textContent.toUpperCase();
       }
@@ -446,8 +455,8 @@ export default class Keyboard {
     this.elements.main.classList.remove('keyboard--hidden');
 
     this.elements.about.classList.remove('keyboard--hidden');
-    // this.elements.sound.classList.remove('keyboard--hidden');
     this.elements.close.classList.remove('keyboard--hidden');
+    this.elements.close.innerText = 'CLOSE keyboard';
   }
 
   close() {
