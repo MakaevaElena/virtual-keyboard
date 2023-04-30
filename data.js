@@ -128,7 +128,7 @@ export const data = [
   { en: 'Win', ru: 'Win', key: 'MetaLeft' },
   { en: 'Alt', ru: 'Alt', key: 'AltLeft' },
   { en: 'space', ru: 'space', key: 'Space' },
-  { en: 'Alt', ru: 'Alt', key: 'AltRight' },
+  { en: 'Speech', ru: 'Alt', key: 'AltRight' },
   // { en: 'Ctrl', ru: 'Ctrl', key: 'CtrlRight' },
   { en: 'Sound', ru: 'Sound', key: 'CtrlRight' },
   { en: 'Left', ru: 'Left', key: 'ArrowLeft' },
