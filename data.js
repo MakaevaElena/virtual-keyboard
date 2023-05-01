@@ -61,7 +61,6 @@ export const data = [
   { en: 'Alt', ru: 'Alt', key: 'AltLeft' },
   { en: 'space', ru: 'space', key: 'Space' },
   { en: 'Speech', ru: 'Alt', key: 'AltRight' },
-  // { en: 'Ctrl', ru: 'Ctrl', key: 'CtrlRight' },
   { en: 'Sound', ru: 'Sound', key: 'CtrlRight' },
   { en: 'Left', ru: 'Left', key: 'ArrowLeft' },
   { en: 'Down', ru: 'Down', key: 'ArrowDown' },

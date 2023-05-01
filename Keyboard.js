@@ -41,7 +41,7 @@ export default class Keyboard {
     this.elements.about.classList.add('about', 'keyboard--hidden');
     this.elements.close.classList.add('close', 'keyboard--hidden');
     this.elements.about.innerHTML +=
-      '<p>Change lang: press key <strong>Eng / Ru</strong></p><p>On Sound: press key <strong>Sound</strong></p>';
+      '<p>The keyboard was created on Windows</p><p>Change lang: press key <strong>Eng / Ru</strong></p><p>On Sound: press key <strong>Sound</strong></p>';
     this.elements.close.innerText = 'CLOSE V - keyboard';
     this.elements.textarea.placeholder = 'Click here';
     this.elements.textarea.setAttribute('type', 'text');
@@ -65,9 +65,7 @@ export default class Keyboard {
       });
     });
 
-    //Keydown
     document.addEventListener('keydown', (evt) => {
-      // console.log(evt.code);
       if (evt.repeat) return;
       const sameKeyElement = document.querySelector(`.keyboard__key[data-key=${evt.code}]`);
       sameKeyElement.classList.add('active');
@@ -81,12 +79,10 @@ export default class Keyboard {
     document.addEventListener('keyup', (evt) => {
       const sameKeyElement = document.querySelector(`.keyboard__key[data-key=${evt.code}]`);
       sameKeyElement.classList.remove('active');
-      // console.log(evt.code);
     });
 
     this.elements.close.addEventListener('click', () => {
       this.elements.main.classList.add('keyboard--hidden');
-      // this.elements.close.classList.add('keyboard--hidden');
       this.elements.close.innerText = 'OPEN keyboard';
       this.elements.about.classList.add('keyboard--hidden');
     });
@@ -153,7 +149,6 @@ export default class Keyboard {
             this.properties.value = this.properties.value.substring(
               0,
               this.properties.value.length - 1,
-              // this.properties.value.innerText.slice(0, -1),
             );
             this._triggerEvent('oninput');
           });
@@ -200,7 +195,6 @@ export default class Keyboard {
 
           break;
 
-        //! shift
         case 'Shift':
           keyElement.classList.add('keyboard__key--dark', 'keyboard__key--activatable');
           if (i !== 55) keyElement.classList.add('keyboard__key--wide');
@@ -212,10 +206,6 @@ export default class Keyboard {
             if (this.properties.sound) this._soundSpecial();
             this._toggleShift();
             keyElement.classList.toggle('keyboard__key--active', this.properties.capsLock);
-
-            // if (typeof +dataKey.en === 'number') {
-            //   this.properties.value += this.properties.shift ? dataKey.simbol : dataKey.en;
-            // }
           });
 
           break;
@@ -405,7 +395,6 @@ export default class Keyboard {
     this.properties.sound = !this.properties.sound;
   }
 
-  //! shift
   _toggleShift() {
     this.properties.capsLock = !this.properties.capsLock;
     this.properties.shift = !this.properties.shift;
@@ -438,7 +427,6 @@ export default class Keyboard {
     }
   }
 
-  //! speech
   _toggleSpeech() {
     this.properties.speech = !this.properties.speech;
     this.elements.textarea.webkitSpeech = this.properties.speech ? true : false;

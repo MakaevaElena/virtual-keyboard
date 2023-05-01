@@ -1,7 +1,7 @@
 export const moveRow = (keyCode) => {
   const textarea = document.querySelector('.use-keyboard-input');
 
-  const goHorizontally = () => {
+  const goLeftNRight = () => {
     let shifting = textarea.selectionStart;
     shifting += keyCode === 'ArrowLeft' ? -1 : 1;
 
@@ -10,28 +10,28 @@ export const moveRow = (keyCode) => {
     }
   };
 
-  const goVertically = () => {
-    let carriagePosition = textarea.selectionEnd;
+  const goUpNDown = () => {
+    let position = textarea.selectionEnd;
 
-    const prevLine = textarea.value.lastIndexOf('\n', carriagePosition);
-    const nextLine = textarea.value.lastIndexOf('\n', carriagePosition + 1);
-    const prevPrevLine = textarea.value.lastIndexOf('\n', prevLine - 1);
+    const prev = textarea.value.lastIndexOf('\n', position);
+    const next = textarea.value.lastIndexOf('\n', position + 1);
+    const prevPrevLine = textarea.value.lastIndexOf('\n', prev - 1);
 
-    if (nextLine !== -1) {
-      carriagePosition -= keyCode === 'ArrowUp' ? prevLine : -prevLine;
-      carriagePosition += keyCode === 'ArrowUp' ? prevPrevLine : nextLine;
-      textarea.setSelectionRange(carriagePosition, carriagePosition);
+    if (next !== -1) {
+      position -= keyCode === 'ArrowUp' ? prev : -prev;
+      position += keyCode === 'ArrowUp' ? prevPrevLine : next;
+      textarea.setSelectionRange(position, position);
     }
   };
 
   switch (keyCode) {
     case 'ArrowLeft':
     case 'ArrowRight':
-      goHorizontally();
+      goLeftNRight();
       break;
     case 'ArrowUp':
     case 'ArrowDown':
-      goVertically();
+      goUpNDown();
       break;
     default:
       throw new Error('Error');
